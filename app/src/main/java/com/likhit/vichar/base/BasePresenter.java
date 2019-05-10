@@ -1,4 +1,4 @@
-package com.likhit.vichar.Base;
+package com.likhit.vichar.base;
 
 public class BasePresenter<T extends BaseView> {
 

@@ -1,4 +1,4 @@
-package com.likhit.vichar.Base;
+package com.likhit.vichar.base;
 
 import android.support.annotation.StringRes;
 
