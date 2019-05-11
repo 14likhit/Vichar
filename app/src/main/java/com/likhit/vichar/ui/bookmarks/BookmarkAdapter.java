@@ -1,4 +1,4 @@
-package com.likhit.vichar.ui.home;
+package com.likhit.vichar.ui.bookmarks;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,27 +10,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.jakewharton.picasso.OkHttp3Downloader;
 import com.likhit.vichar.R;
 import com.likhit.vichar.data.model.Article;
-import com.likhit.vichar.databinding.LayoutNewsBinding;
-import com.likhit.vichar.databinding.NewsCardItemBinding;
+import com.likhit.vichar.databinding.LayoutBookmarkBinding;
 import com.likhit.vichar.ui.detail.Details;
-import com.squareup.picasso.Picasso;
+import com.likhit.vichar.ui.home.NewsAdapter;
 
 import java.util.List;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
+public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.BookmarksViewHolder> {
 
     private List<Article> newsArticle;
     private LayoutInflater layoutInflater;
     private Context context;
 
-    public NewsAdapter(Context context) {
+    public BookmarkAdapter(Context context) {
         this.context = context;
     }
 
-    public NewsAdapter(List<Article> newsArticle) {
+    public BookmarkAdapter(List<Article> newsArticle) {
         this.newsArticle = newsArticle;
     }
 
@@ -40,33 +38,19 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @NonNull
     @Override
-    public NewsAdapter.NewsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public BookmarkAdapter.BookmarksViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         if (layoutInflater == null) {
             layoutInflater = LayoutInflater.from(viewGroup.getContext());
         }
 
-        return new NewsAdapter.NewsViewHolder(layoutInflater.inflate(R.layout.news_card_item, viewGroup, false));
+        return new BookmarkAdapter.BookmarksViewHolder(layoutInflater.inflate(R.layout.layout_bookmark, viewGroup, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewsAdapter.NewsViewHolder newsViewHolder, int i) {
+    public void onBindViewHolder(@NonNull BookmarkAdapter.BookmarksViewHolder newsViewHolder, int i) {
         final Article article = newsArticle.get(i);
         newsViewHolder.binding.tvNewsTitle.setText(article.getTitle());
-        newsViewHolder.binding.dateCard.setText(article.getPublishedAt());
-
-//        Picasso.Builder builder = new Picasso.Builder(context);
-//        builder.downloader(new OkHttp3Downloader(context));
-//        builder.build().load(article.getUrlTOImage())
-//                .placeholder((R.mipmap.ic_vichar_round))
-//                .error(R.drawable.vichar)
-//                .into(newsViewHolder.binding.ivNews);
-//        Picasso.get().load(article.getUrlTOImage())
-//                .resize(50, 50)
-//                .centerCrop()
-//                .into(newsViewHolder.binding.ivNews);
-        Glide.with(context)
-                .load(article.getUrlTOImage())
-                .into(newsViewHolder.binding.ivNews);
+        newsViewHolder.binding.trailTextCard.setText(article.getContent());
 
         newsViewHolder.binding.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,10 +73,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         return 0;
     }
 
-    public class NewsViewHolder extends RecyclerView.ViewHolder {
-        private NewsCardItemBinding binding;
+    public class BookmarksViewHolder extends RecyclerView.ViewHolder {
+        private LayoutBookmarkBinding binding;
 
-        public NewsViewHolder(@NonNull View itemView) {
+        public BookmarksViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = DataBindingUtil.bind(itemView);
         }
@@ -102,4 +86,5 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         newsArticle.clear();
         notifyDataSetChanged();
     }
+
 }

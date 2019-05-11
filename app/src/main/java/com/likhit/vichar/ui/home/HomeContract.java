@@ -8,7 +8,7 @@ import java.util.List;
 public interface HomeContract {
 
     interface Presenter {
-        void getNewsArticle();
+        void getNewsArticle(String category);
     }
 
     interface View extends BaseView {

@@ -15,7 +15,7 @@ public class RemoteData {
 
     public void getNews() {
         ApiService service = ApiClient.getRetrofitInstance().create(ApiService.class);
-        final Call<News> request = service.getNews("us", "2381cf8e88fa431c834cddbc53b4976f");
+        final Call<News> request = service.getNews("in", "general","2381cf8e88fa431c834cddbc53b4976f");
         request.enqueue(new Callback<News>() {
             @Override
             public void onResponse(@NonNull Call<News> call, @NonNull Response<News> response) {

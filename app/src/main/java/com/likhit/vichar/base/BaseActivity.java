@@ -40,16 +40,6 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
         super.attachBaseContext(newBase);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
     public void setupToolbar(@Nullable String title, boolean homeButtonEnable) {
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar == null) {
@@ -75,6 +65,25 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
 //                    onBackPressed();
 //                }
 //            });
+        }
+    }
+
+    protected BaseFragment getCurrentFragment() {
+        return (BaseFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getCurrentFragment() == null || !getCurrentFragment().onBackPressed()) {
+            super.onBackPressed();
         }
     }
 

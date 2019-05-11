@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/layout_margin_5"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            card_view:cardCornerRadius="@dimen/card_corner_radius">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/layout_margin"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_margin_4"
+                    android:layout_marginBottom="@dimen/layout_margin_8">
+
+                    <TextView
+                        android:id="@+id/tv_news_title"
+                        style="@style/TitleTextViewStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@+id/iv_news"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textStyle="bold"
+                        tools:text="title" />
+
+                    <ImageView
+                        android:id="@+id/iv_news"
+                        android:layout_width="@dimen/thumbnail_image_width"
+                        android:layout_height="@dimen/thumbnail_image_height"
+                        android:layout_alignParentEnd="true"
+                        android:contentDescription="News_Image"
+                        android:scaleType="centerCrop" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/date_card"
+                        style="@style/DateTextViewStyle"
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@+id/share_image_card"
+                        tools:text="date" />
+
+                    <ImageView
+                        android:id="@+id/share_image_card"
+                        android:layout_width="@dimen/image_share"
+                        android:layout_height="@dimen/image_share"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="@dimen/layout_margin"
+                        android:contentDescription="Share"
+                        android:src="@android:drawable/ic_menu_share" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
+</layout>

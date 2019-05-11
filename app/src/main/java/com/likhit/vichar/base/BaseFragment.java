@@ -22,4 +22,7 @@ public class BaseFragment extends Fragment implements BaseView {
     public void showMessage(int messageResId) {
 
     }
+    public boolean onBackPressed() {
+        return false;
+    }
 }
