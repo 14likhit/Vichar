@@ -13,7 +13,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.likhit.vichar.base.BaseActivity;
 import com.likhit.vichar.R;
@@ -28,9 +32,6 @@ import java.util.List;
 
 public class HomeActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private ActivityHomeBinding binding;
-    private NewsAdapter adapter;
-
-    private HomePresenter presenter;
 
     private ViewPager viewPager;
 
@@ -47,27 +48,14 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
 
         initViews();
 
-//        presenter = new HomePresenter();
-//        presenter.attachView(this);
-//        presenter.getNewsArticle();
-
     }
 
     @Override
     protected void onDestroy() {
-        presenter.detachView();
         super.onDestroy();
     }
 
     private void initViews() {
-//        if (binding.rvListNews.getLayoutManager() == null) {
-//            binding.rvListNews.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-//        }
-//
-//        if (adapter == null) {
-//            adapter = new NewsAdapter(this);
-//        }
-//        binding.rvListNews.setAdapter(adapter);
         toolbar = findViewById(R.id.toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.open_nav_drawer, R.string.nav_close_drawer);
         binding.drawerLayout.addDrawerListener(toggle);
@@ -83,6 +71,25 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         binding.navView.setNavigationItemSelectedListener(this);
+        if (Preferences.getInstance().getUserLoggedIn()) {
+            View headerView = binding.navView.getHeaderView(0);
+            TextView tvUserName = (TextView) headerView.findViewById(R.id.tvUserName);
+            tvUserName.setText(Preferences.getInstance().getPrefUsername());
+            TextView tvUserId = (TextView) headerView.findViewById(R.id.tvUserLoginId);
+            tvUserId.setText(Preferences.getInstance().getPrefUserid());
+            Menu menu = binding.navView.getMenu();
+            MenuItem login = menu.findItem(R.id.nav_account);
+            login.setTitle("LogOut");
+        } else {
+            View headerView = binding.navView.getHeaderView(0);
+            TextView tvUserName = (TextView) headerView.findViewById(R.id.tvUserName);
+            tvUserName.setText("Guest");
+            TextView tvUserId = (TextView) headerView.findViewById(R.id.tvUserLoginId);
+            tvUserId.setText("guest");
+            Menu menu = binding.navView.getMenu();
+            MenuItem login = menu.findItem(R.id.nav_account);
+            login.setTitle("LogIn");
+        }
 
         // Set the default fragment when starting the app
 //        onNavigationItemSelected(binding.navView.getMenu().getItem(0).setChecked(true));
@@ -108,7 +115,15 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
         } else if (id == R.id.nav_settings) {
             Log.d("Nav", "settings");
         } else if (id == R.id.nav_account) {
-            this.startActivity(new Intent(this, LoginActivity.class));
+            if (Preferences.getInstance().getUserLoggedIn()) {
+                Toast.makeText(this, "Successfully LoggedOut", Toast.LENGTH_SHORT).show();
+                Preferences.getInstance().setUserLoggedIn(false);
+                Intent i = new Intent(this, HomeActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                this.startActivity(i);
+            } else {
+                this.startActivity(new Intent(this, LoginActivity.class));
+            }
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

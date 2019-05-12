@@ -11,6 +11,10 @@ import com.likhit.vichar.R;
 import com.likhit.vichar.base.BaseActivity;
 import com.likhit.vichar.data.model.Article;
 import com.likhit.vichar.databinding.ActivityDetailsBinding;
+import com.likhit.vichar.sharedpreference.Preferences;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Details extends BaseActivity {
 
@@ -18,6 +22,7 @@ public class Details extends BaseActivity {
     private String urlImage;
     private String content;
     private String date;
+    private boolean articleExists = false;
 
     private ActivityDetailsBinding binding;
 
@@ -59,13 +64,48 @@ public class Details extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_bookmark, menu);
+        if (Preferences.getInstance().getBookmarkedArticle() != null) {
+            if (Preferences.getInstance().getBookmarkedArticle().size() > 0) {
+
+                for (Article article : Preferences.getInstance().getBookmarkedArticle()) {
+                    if (article.getTitle().equalsIgnoreCase(title)) {
+                        articleExists = true;
+                        break;
+                    }
+                }
+                if (articleExists) {
+                    menu.findItem(R.id.menu_bookmark).setIcon(android.R.drawable.btn_star_big_on);
+                }
+
+            }
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_bookmark) {
-            item.setIcon(android.R.drawable.btn_star_big_on );
+        if (item.getItemId() == R.id.menu_bookmark && !articleExists) {
+            if (Preferences.getInstance().getBookmarkedArticle() == null) {
+                Article article = new Article(null, null, title, null, null, urlImage, date, content);
+                Preferences.getInstance().bookMarkArticle(article);
+            } else if (Preferences.getInstance().getBookmarkedArticle().isEmpty()) {
+                Article article = new Article(null, null, title, null, null, urlImage, date, content);
+                Preferences.getInstance().bookMarkArticle(article);
+            } else if (Preferences.getInstance().getBookmarkedArticle().size() > 0) {
+                boolean articleExists = false;
+                for (Article article : Preferences.getInstance().getBookmarkedArticle()) {
+                    if (article.getTitle().equalsIgnoreCase(title)) {
+                        Preferences.getInstance().bookMarkArticle(article);
+                        articleExists = true;
+                    }
+                }
+                if (!articleExists) {
+                    Article article = new Article(null, null, title, null, null, urlImage, date, content);
+                    Preferences.getInstance().bookMarkArticle(article);
+                }
+            }
+            item.setIcon(android.R.drawable.btn_star_big_on);
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -50,6 +50,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull NewsAdapter.NewsViewHolder newsViewHolder, int i) {
+        i = i % newsArticle.size();
         final Article article = newsArticle.get(i);
         newsViewHolder.binding.tvNewsTitle.setText(article.getTitle());
         newsViewHolder.binding.dateCard.setText(article.getPublishedAt());
@@ -84,7 +85,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public int getItemCount() {
         if (newsArticle != null) {
-            return newsArticle.size();
+//            return newsArticle.size();
+            return Integer.MAX_VALUE;
         }
         return 0;
     }

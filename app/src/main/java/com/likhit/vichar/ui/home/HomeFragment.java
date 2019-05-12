@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -117,7 +118,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         } else {
             binding.loadingIndicator.setVisibility(View.GONE);
             // Update empty state with no connection error message and image
-            binding.emptyView.setText("Check Internet COnnection");
+            binding.emptyView.setText("Check Internet Connection");
 
             // Hide SwipeRefreshLayout
             binding.swipeRefresh.setVisibility(View.GONE);
@@ -138,7 +139,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
             // First, hide loading indicator so error message will be visible
 //            binding.loadingIndicator.setVisibility(View.GONE);
             // Update empty state with no connection error message and image
-            binding.emptyView.setText("Check Internet COnnection");
+            binding.emptyView.setText("Check Internet Connection");
 //            mEmptyStateTextView.setCompoundDrawablesWithIntrinsicBounds(Constants.DEFAULT_NUMBER,
 //                    R.drawable.ic_network_check, Constants.DEFAULT_NUMBER, Constants.DEFAULT_NUMBER);
 

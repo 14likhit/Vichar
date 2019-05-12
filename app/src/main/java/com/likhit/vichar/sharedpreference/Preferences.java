@@ -16,6 +16,10 @@ public class Preferences {
 
     private static final String PREF_BOOKMARK_ARTICLE = "BOOKMARK_ARTICLE";
 
+    private static final String PREF_USERNAME = "USER_NAME";
+    private static final String PREF_USER_ID = "USER_ID";
+    private static final String PREF_USER_LOGGED_IN = "USER_LOGGED_IN";
+
     private static Preferences mInstance;
     private SharedPreferences sharedPreferences;
 
@@ -56,4 +60,39 @@ public class Preferences {
         }
     }
 
+    public String getPrefUsername() {
+        if (sharedPreferences.contains(PREF_USERNAME)) {
+            return sharedPreferences.getString(PREF_USERNAME, "Guest");
+        } else {
+            return null;
+        }
+    }
+
+    public void setPrefUsername(String username) {
+        sharedPreferences.edit().putString(PREF_USERNAME, username).apply();
+    }
+
+    public String getPrefUserid() {
+        if (sharedPreferences.contains(PREF_USER_ID)) {
+            return sharedPreferences.getString(PREF_USER_ID, "guest");
+        } else {
+            return null;
+        }
+    }
+
+    public void setPrefUserid(String userid) {
+        sharedPreferences.edit().putString(PREF_USER_ID, userid).apply();
+    }
+
+    public boolean getUserLoggedIn() {
+        if (sharedPreferences.contains(PREF_USER_LOGGED_IN)) {
+            return sharedPreferences.getBoolean(PREF_USER_LOGGED_IN, false);
+        } else {
+            return false;
+        }
+    }
+
+    public void setUserLoggedIn(boolean userLoggedIn) {
+        sharedPreferences.edit().putBoolean(PREF_USER_LOGGED_IN, userLoggedIn).apply();
+    }
 }
