@@ -48,8 +48,8 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getArguments()!=null){
-            category=getArguments().getString("category");
+        if (getArguments() != null) {
+            category = getArguments().getString("category");
         }
     }
 
@@ -65,7 +65,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
                 Log.i("TAG", "onRefresh called from SwipeRefreshLayout");
                 // restart the loader
                 initiateRefresh();
-                Toast.makeText(getActivity(), "UpdateNow",
+                Toast.makeText(getActivity(), "UpdatedNow",
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -105,10 +105,11 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         if (isConnected) {
             presenter.getNewsArticle(category);
         } else {
-
             binding.loadingIndicator.setVisibility(View.GONE);
+            binding.emptyView.setVisibility(View.VISIBLE);
             // Update empty state with no connection error message and image
             binding.emptyView.setText("Check Internet Connection");
+            binding.rvListNews.setVisibility(View.GONE);
         }
     }
 
@@ -117,11 +118,13 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
             presenter.getNewsArticle(category);
         } else {
             binding.loadingIndicator.setVisibility(View.GONE);
+            binding.emptyView.setVisibility(View.VISIBLE);
             // Update empty state with no connection error message and image
             binding.emptyView.setText("Check Internet Connection");
 
-            // Hide SwipeRefreshLayout
-            binding.swipeRefresh.setVisibility(View.GONE);
+            // Stop SwipeRefreshLayout
+            binding.swipeRefresh.setRefreshing(false);
+            binding.rvListNews.setVisibility(View.GONE);
         }
     }
 
@@ -134,17 +137,20 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         if (articles.size() > 0) {
             adapter.setNewsArticle(articles);
             adapter.notifyDataSetChanged();
+            binding.rvListNews.setVisibility(View.VISIBLE);
+            binding.emptyView.setVisibility(View.GONE);
         } else {
             // Otherwise, display error
             // First, hide loading indicator so error message will be visible
 //            binding.loadingIndicator.setVisibility(View.GONE);
             // Update empty state with no connection error message and image
-            binding.emptyView.setText("Check Internet Connection");
+            binding.emptyView.setText("Unable To Fetch News");
 //            mEmptyStateTextView.setCompoundDrawablesWithIntrinsicBounds(Constants.DEFAULT_NUMBER,
 //                    R.drawable.ic_network_check, Constants.DEFAULT_NUMBER, Constants.DEFAULT_NUMBER);
 
             // Hide SwipeRefreshLayout
-            binding.swipeRefresh.setVisibility(View.GONE);
+            binding.emptyView.setVisibility(View.VISIBLE);
+            binding.rvListNews.setVisibility(View.GONE);
         }
         // First, hide loading indicator so error message will be visible
         binding.loadingIndicator.setVisibility(View.GONE);
